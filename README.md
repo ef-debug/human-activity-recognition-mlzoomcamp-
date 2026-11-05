@@ -257,3 +257,63 @@ This installs the dependencies required for the training pipeline, visualization
 The notebook reproduces the model training, validation results, and final test evaluation.
 
 All experiments use `random_state=42` where applicable, and the official UCI test set is reserved for final evaluation.
+
+## 10. Cloud Deployment
+
+The trained Human Activity Recognition model is deployed as a public prediction API on Render using Docker, Flask, and Gunicorn.
+
+**Live API:** https://human-activity-recognition-mlzoomcamp.onrender.com
+
+**Prediction endpoint:** `POST /predict`
+
+The deployed model uses StandardScaler and Logistic Regression to classify six human activities from 561 pre-extracted smartphone sensor features.
+
+### 10.1 Test the Cloud API
+
+A ready-to-use example request is provided in `sample_request.json`.
+
+The file contains 561 numerical features from one observation in the official UCI HAR test dataset.
+
+To test the deployed model, run the following command from the repository directory:
+
+```bash
+curl --max-time 180 -X POST \
+  https://human-activity-recognition-mlzoomcamp.onrender.com/predict \
+  -H "Content-Type: application/json" \
+  --data-binary @sample_request.json
+```
+
+**Expected response:**
+
+```json
+{
+  "activity": "Standing",
+  "class_id": 5
+}
+```
+
+The API returns the predicted activity and its corresponding class ID (1–6).
+
+### 10.2 Input Requirements
+
+The prediction endpoint accepts an HTTP POST request containing a JSON object with a `features` field.
+
+The `features` field must contain exactly 561 finite numerical values in the original UCI HAR feature order.
+
+The model expects pre-extracted and normalized sensor features, not raw accelerometer or gyroscope signals.
+
+The example request allows reviewers to test the cloud API without downloading the original dataset.
+
+### 10.3 Deployment Details
+
+- **Platform:** Render
+- **Runtime:** Docker
+- **Web framework:** Flask
+- **Application server:** Gunicorn
+- **Port:** 9696
+- **Model:** Logistic Regression (C=1)
+- **Preprocessing:** StandardScaler
+
+The application uses Render's free service tier, which can spin down after inactivity. The first request after an idle period may take additional time.
+
+This deployment is intended as an educational machine learning demonstration. Performance on arbitrary real-world smartphone recordings has not been established.
