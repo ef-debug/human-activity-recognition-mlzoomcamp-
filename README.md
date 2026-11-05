@@ -17,6 +17,12 @@ The model predicts one of six activities:
 
 The project covers exploratory data analysis, model training, hyperparameter tuning, evaluation, and deployment through a Flask prediction API and Docker.
 
+### Potential Application
+
+The model could be integrated into a research or activity-analysis application that processes smartphone sensor recordings. Once the required 561 features have been extracted using a compatible preprocessing pipeline, the application can send them to the prediction API and receive the predicted activity.
+
+This could support the analysis of human movement patterns in controlled experimental settings. The current implementation focuses on feature-based activity classification and does not process raw sensor signals directly.
+
 ## 2. Dataset
 
 **Source:** [UCI Human Activity Recognition Using Smartphones](https://archive.ics.uci.edu/dataset/240/human+activity+recognition+using+smartphones)
