@@ -1,0 +1,6 @@
+-r requirements.txt
+
+ipykernel==7.4.0
+matplotlib==3.11.2
+seaborn==0.13.2
+xgboost-cpu==3.4.1
